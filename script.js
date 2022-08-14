@@ -12,6 +12,7 @@ numbers.forEach((number) => {
 
 const clear = document.querySelector('.clear');
 clear.addEventListener('click', () => {
+    displayValue = 0;
     display.textContent = "";
 });
 
