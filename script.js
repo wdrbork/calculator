@@ -1,32 +1,38 @@
-let displayValue = undefined;
+let displayValue = 0;
+let operator = undefined;
 
 const display = document.querySelector('.display');
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
-        displayValue = number.textContent
+        displayValue = parseInt(number.textContent);
         display.textContent = displayValue;
     });
 });
 
+const clear = document.querySelector('.clear');
+clear.addEventListener('click', () => {
+    display.textContent = "";
+});
+
 function add(x, y) {
-    return x + y;
+    return parseInt(x) + parseInt(y);
 }
 
 function subtract(x, y) {
-    return x - y;
+    return parseInt(x) - parseInt(y);
 }
 
 function multiply(x, y) {
-    return x * y;
+    return parseInt(x) * parseInt(y);
 }
 
 function divide(x, y) {
-    if (y === 0) {
+    if (y === '0') {
         return 'ERROR';
     }
 
-    return x / y;
+    return parseInt(x) / parseInt(y);
 }
 
 function operate(operator, x, y) {
