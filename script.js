@@ -1,6 +1,8 @@
 let displayValue = 0;
 let currentSum = 0;
+let currentProduct = 0;
 let currentOperator = undefined;
+let savedOperator = undefined;
 
 const display = document.querySelector('.display');
 const numbers = document.querySelectorAll('.number');
@@ -14,14 +16,31 @@ numbers.forEach((number) => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if (currentOperator) {
+        if (currentOperator === '+' || currentOperator === '-') {
             if (operator.textContent === '+' || operator.textContent === '-' || 
                     operator.textContent === '=') {
                 currentSum = operate(currentOperator, currentSum, displayValue);
                 display.textContent = currentSum;
+            } else {
+                savedOperator = currentOperator;
+                currentProduct = displayValue;
+            } 
+        } else if (currentOperator === '*' || currentOperator === '/') {
+            currentProduct = operate(currentOperator, currentProduct, displayValue);
+            if ((operator.textContent === '+' || operator.textContent === '-' || 
+                    operator.textContent === '=') && savedOperator) {
+                currentSum = operate(savedOperator, currentSum, currentProduct);
+                display.textContent = currentSum;
+            } else {
+                display.textContent = currentProduct;
             }
         } else {
-            currentSum = displayValue
+            if (operator.textContent === '+' || operator.textContent === '-' || 
+                    operator.textContent === '=') {
+                currentSum = displayValue;
+            } else {
+                currentProduct = displayValue;
+            }
         }
     
         displayValue = 0;
@@ -31,13 +50,8 @@ operators.forEach((operator) => {
     });
 });
 
-const clear = document.querySelector('.clear');
-clear.addEventListener('click', () => {
-    displayValue = 0;
-    currentSum = 0;
-    currentOperator = undefined;
-    display.textContent = "";
-});
+const clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', clear);
 
 function mathManager(operator) {
     if (currentOperator) {
@@ -57,23 +71,24 @@ function mathManager(operator) {
 }
 
 function add(x, y) {
-    return parseInt(x) + parseInt(y);
+    return x + y;
 }
 
 function subtract(x, y) {
-    return parseInt(x) - parseInt(y);
+    return x - y;
 }
 
 function multiply(x, y) {
-    return parseInt(x) * parseInt(y);
+    return x * y;
 }
 
 function divide(x, y) {
-    if (y === '0') {
+    if (y === 0) {
+        clear();
         return 'ERROR';
     }
 
-    return parseInt(x) / parseInt(y);
+    return x / y;
 }
 
 function operate(operator, x, y) {
@@ -86,4 +101,13 @@ function operate(operator, x, y) {
     } else if (operator === '/') {
         return divide(x, y);
     }
+}
+
+function clear() {
+    displayValue = 0;
+    currentSum = 0;
+    currentProduct = 0;
+    currentOperator = undefined;
+    savedOperator = undefined;
+    display.textContent = "";
 }
