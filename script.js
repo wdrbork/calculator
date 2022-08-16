@@ -25,9 +25,7 @@ operators.forEach((operator) => {
         }
     
         displayValue = 0;
-        if (operator.textContent === '=') {
-            currentOperator = undefined;
-        } else {
+        if (operator.textContent !== '=') {
             currentOperator = operator.textContent;
         }
     });
