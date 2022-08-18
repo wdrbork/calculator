@@ -62,6 +62,11 @@ function mathManager(operator) {
                prevOperator === '÷') 
     {
         currentProduct = operate(prevOperator, currentProduct, displayValue);
+        if (currentProduct === 'ERROR') {
+            display.textContent = currentProduct;
+            return;
+        }
+
         if (operator.textContent === '+' || 
             operator.textContent === '-' || 
             operator.textContent === '=')  // ex: 2 * 3 +
@@ -106,7 +111,7 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-    if (y === 0) {
+    if (x !== 0 && y === 0) {
         clear();
         return 'ERROR';
     }
