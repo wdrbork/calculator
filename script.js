@@ -111,7 +111,7 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-    if (x !== 0 && y === 0) {
+    if (y === 0) {
         clear();
         return 'ERROR';
     }
