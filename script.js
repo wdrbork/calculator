@@ -7,72 +7,91 @@ let savedOperator = '+';
 const display = document.querySelector('.display');
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
-    number.addEventListener('click', () => {
-        if (prevOperator === '=') {
-            displayValue = 0;
-        }
-        displayValue = displayValue * 10 + parseInt(number.textContent);
-        display.textContent = displayValue;
-    });
+    number.addEventListener('click', () => updateDisplay(number));
 });
 
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
-    operator.addEventListener('click', () => {
-        debug();
-        if (prevOperator === '+' || 
-            prevOperator === '-') 
-        {
-            if (operator.textContent === '+' || 
-                operator.textContent === '-' || 
-                operator.textContent === '=')  // ex: 2 + 3 -
-            {
-                currentSum = operate(prevOperator, currentSum, displayValue);
-                displayValue = currentSum;
-                display.textContent = displayValue;
-            } 
-            else {  // ex: 2 + 3 * 
-                currentProduct = displayValue;
-                savedOperator = prevOperator;
-            } 
-        } else if (prevOperator === '*' || 
-                   prevOperator === '÷') 
-        {
-            currentProduct = operate(prevOperator, currentProduct, displayValue);
-            if (operator.textContent === '+' || 
-                operator.textContent === '-' || 
-                operator.textContent === '=')  // ex: 2 * 3 +
-            {
-                currentSum = operate(savedOperator, currentSum, currentProduct);
-                currentProduct = 0;
-                displayValue = currentSum;
-                display.textContent = displayValue;
-            } else {
-                displayValue = currentProduct;
-                display.textContent = currentProduct;
-            }
-        } else {
-            if (operator.textContent === '+' || 
-                operator.textContent === '-' || 
-                operator.textContent === '=')
-            { 
-                currentSum = displayValue;
-                currentProduct = 0;
-            } else {
-                currentProduct = displayValue;
-                currentSum = 0;
-            }
-        }
-    
-        if (operator.textContent !== '=') {
-            displayValue = 0;
-        }
-        prevOperator = operator.textContent;
-    });
+    operator.addEventListener('click', () => mathManager(operator));
 });
 
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear);
+
+const switchSign = document.querySelector('.change-sign');
+switchSign.addEventListener('click', changeSign);
+
+function updateDisplay(number) {
+    if (prevOperator === '=') {
+        clear();
+    }
+
+    displayValue = displayValue * 10;
+    if (displayValue < 0) {
+        displayValue -= parseInt(number.textContent);
+    } else {
+        displayValue += parseInt(number.textContent);
+    }
+
+    display.textContent = displayValue;
+}
+
+function changeSign() {
+    displayValue *= -1;
+    display.textContent = displayValue;
+}
+
+function mathManager(operator) {
+    debug();
+    if (prevOperator === '+' || 
+        prevOperator === '-') 
+    {
+        if (operator.textContent === '+' || 
+            operator.textContent === '-' || 
+            operator.textContent === '=')  // ex: 2 + 3 -
+        {
+            currentSum = operate(prevOperator, currentSum, displayValue);
+            displayValue = currentSum;
+            display.textContent = displayValue;
+        } 
+        else {  // ex: 2 + 3 * 
+            currentProduct = displayValue;
+            savedOperator = prevOperator;
+        } 
+    } else if (prevOperator === '*' || 
+               prevOperator === '÷') 
+    {
+        currentProduct = operate(prevOperator, currentProduct, displayValue);
+        if (operator.textContent === '+' || 
+            operator.textContent === '-' || 
+            operator.textContent === '=')  // ex: 2 * 3 +
+        {
+            currentSum = operate(savedOperator, currentSum, currentProduct);
+            currentProduct = 0;
+            displayValue = currentSum;
+            display.textContent = displayValue;
+        } else {
+            displayValue = currentProduct;
+            display.textContent = currentProduct;
+        }
+    } else {
+        if (operator.textContent === '+' || 
+            operator.textContent === '-' || 
+            operator.textContent === '=')
+        { 
+            currentSum = displayValue;
+            currentProduct = 0;
+        } else {
+            currentProduct = displayValue;
+            currentSum = 0;
+        }
+    }
+
+    if (operator.textContent !== '=') {
+        displayValue = 0;
+    }
+    prevOperator = operator.textContent;
+}
 
 function add(x, y) {
     return x + y;
