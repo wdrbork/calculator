@@ -2,12 +2,15 @@ let displayValue = 0;
 let currentSum = 0;
 let currentProduct = 0;
 let prevOperator = undefined;
-let savedOperator = undefined;
+let savedOperator = '+';
 
 const display = document.querySelector('.display');
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
+        if (prevOperator === '=') {
+            displayValue = 0;
+        }
         displayValue = displayValue * 10 + parseInt(number.textContent);
         display.textContent = displayValue;
     });
@@ -16,59 +19,60 @@ numbers.forEach((number) => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if (prevOperator === '+' || prevOperator === '-') {
-            if (operator.textContent === '+' || operator.textContent === '-' || 
-                    operator.textContent === '=') {
+        debug();
+        if (prevOperator === '+' || 
+            prevOperator === '-') 
+        {
+            if (operator.textContent === '+' || 
+                operator.textContent === '-' || 
+                operator.textContent === '=')  // ex: 2 + 3 -
+            {
                 currentSum = operate(prevOperator, currentSum, displayValue);
-                display.textContent = currentSum;
-            } else {
-                savedOperator = prevOperator;
-                currentProduct = displayValue;
+                displayValue = currentSum;
+                display.textContent = displayValue;
             } 
-        } else if (prevOperator === '*' || prevOperator === '/') {
+            else {  // ex: 2 + 3 * 
+                currentProduct = displayValue;
+                savedOperator = prevOperator;
+            } 
+        } else if (prevOperator === '*' || 
+                   prevOperator === '÷') 
+        {
             currentProduct = operate(prevOperator, currentProduct, displayValue);
-            if ((operator.textContent === '+' || operator.textContent === '-' || 
-                    operator.textContent === '=') && savedOperator) {
+            if (operator.textContent === '+' || 
+                operator.textContent === '-' || 
+                operator.textContent === '=')  // ex: 2 * 3 +
+            {
                 currentSum = operate(savedOperator, currentSum, currentProduct);
-                display.textContent = currentSum;
+                currentProduct = 0;
+                displayValue = currentSum;
+                display.textContent = displayValue;
             } else {
+                displayValue = currentProduct;
                 display.textContent = currentProduct;
             }
         } else {
-            if (operator.textContent === '+' || operator.textContent === '-' || 
-                    operator.textContent === '=') {
+            if (operator.textContent === '+' || 
+                operator.textContent === '-' || 
+                operator.textContent === '=')
+            { 
                 currentSum = displayValue;
+                currentProduct = 0;
             } else {
                 currentProduct = displayValue;
+                currentSum = 0;
             }
         }
     
-        displayValue = 0;
         if (operator.textContent !== '=') {
-            prevOperator = operator.textContent;
+            displayValue = 0;
         }
+        prevOperator = operator.textContent;
     });
 });
 
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear);
-
-function mathManager(operator) {
-    if (prevOperator) {
-        if (operator.textContent === '+' || operator.textContent === '-' || 
-                operator.textContent === '=') {
-            currentSum = operate(prevOperator, currentSum, displayValue);
-            display.textContent = currentSum;
-        }
-    }
-
-    displayValue = 0;
-    if (operator.textContent === '=') {
-        prevOperator = undefined;
-    } else {
-        prevOperator = operator.textContent;
-    }
-}
 
 function add(x, y) {
     return x + y;
@@ -98,7 +102,7 @@ function operate(operator, x, y) {
         return subtract(x, y);
     } else if (operator === '*') {
         return multiply(x, y);
-    } else if (operator === '/') {
+    } else if (operator === '÷') {
         return divide(x, y);
     }
 }
@@ -108,6 +112,15 @@ function clear() {
     currentSum = 0;
     currentProduct = 0;
     prevOperator = undefined;
-    savedOperator = undefined;
+    savedOperator = '+';
     display.textContent = "";
+}
+
+function debug() {
+    console.log('displayValue: ' + displayValue);
+    console.log('currentSum: ' + currentSum);
+    console.log('currentProduct: ' + currentProduct);
+    console.log('prevOperator: ' + prevOperator);
+    console.log('savedOperator: ' + savedOperator);
+    console.log("");
 }
