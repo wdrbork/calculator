@@ -1,4 +1,4 @@
-let displayValue = 0;
+let displayValue = "";
 let currentSum = 0;
 let currentProduct = 0;
 let prevOperator = undefined;
@@ -26,18 +26,25 @@ function updateDisplay(number) {
         clear();
     }
 
-    displayValue = displayValue * 10;
-    if (displayValue < 0) {
-        displayValue -= parseInt(number.textContent);
-    } else {
-        displayValue += parseInt(number.textContent);
-    }
+    // displayValue = displayValue * 10;
+    // if (displayValue < 0) {
+    //     displayValue -= parseInt(number.textContent);
+    // } else {
+    //     displayValue += parseInt(number.textContent);
+    // }
 
+    displayValue += number.textContent;
     display.textContent = displayValue;
 }
 
 function changeSign() {
-    displayValue *= -1;
+    // displayValue *= -1;
+
+    if (displayValue.startsWith('-')) {
+        displayValue = displayValue.substring(1);
+    } else {
+        displayValue = '-' + displayValue;
+    }
     display.textContent = displayValue;
 }
 
@@ -93,7 +100,7 @@ function mathManager(operator) {
     }
 
     if (operator.textContent !== '=') {
-        displayValue = 0;
+        displayValue = "";
     }
     prevOperator = operator.textContent;
 }
@@ -120,6 +127,8 @@ function divide(x, y) {
 }
 
 function operate(operator, x, y) {
+    x = parseFloat(x);
+    y = parseFloat(y);
     if (operator === '+') {
         return add(x, y);
     } else if (operator === '-') {
@@ -132,7 +141,7 @@ function operate(operator, x, y) {
 }
 
 function clear() {
-    displayValue = 0;
+    displayValue = "";
     currentSum = 0;
     currentProduct = 0;
     prevOperator = undefined;
