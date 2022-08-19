@@ -18,6 +18,9 @@ operators.forEach((operator) => {
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear);
 
+const backspace = document.querySelector('.backspace');
+backspace.addEventListener('click', undo);
+
 const switchSign = document.querySelector('.change-sign');
 switchSign.addEventListener('click', changeSign);
 
@@ -37,6 +40,20 @@ function updateDisplay(number) {
     // }
 
     displayValue += number.textContent;
+    display.textContent = displayValue;
+}
+
+function clear() {
+    displayValue = "";
+    currentSum = 0;
+    currentProduct = 0;
+    prevOperator = undefined;
+    savedOperator = '+';
+    display.textContent = "";
+}
+
+function undo() {
+    displayValue = String(displayValue).slice(0, -1);
     display.textContent = displayValue;
 }
 
@@ -65,7 +82,7 @@ function mathManager(operator) {
     if (displayValue === "") {
         return;
     }
-    
+
     if (prevOperator === '+' || 
         prevOperator === '-') 
     {
@@ -155,15 +172,6 @@ function operate(operator, x, y) {
     } else if (operator === '÷') {
         return divide(x, y);
     }
-}
-
-function clear() {
-    displayValue = "";
-    currentSum = 0;
-    currentProduct = 0;
-    prevOperator = undefined;
-    savedOperator = '+';
-    display.textContent = "";
 }
 
 function debug() {
