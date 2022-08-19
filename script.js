@@ -62,7 +62,10 @@ function addDecimal() {
 
 function mathManager(operator) {
     debug();
-
+    if (displayValue === "") {
+        return;
+    }
+    
     if (prevOperator === '+' || 
         prevOperator === '-') 
     {
