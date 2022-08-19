@@ -21,6 +21,9 @@ clearButton.addEventListener('click', clear);
 const switchSign = document.querySelector('.change-sign');
 switchSign.addEventListener('click', changeSign);
 
+const decimal = document.querySelector('.decimal');
+decimal.addEventListener('click', addDecimal);
+
 function updateDisplay(number) {
     if (prevOperator === '=') {
         clear();
@@ -48,8 +51,18 @@ function changeSign() {
     display.textContent = displayValue;
 }
 
+function addDecimal() {
+    if (displayValue.includes('.')) {
+        return;
+    }
+
+    displayValue += '.';
+    display.textContent = displayValue;
+}
+
 function mathManager(operator) {
     debug();
+
     if (prevOperator === '+' || 
         prevOperator === '-') 
     {
@@ -71,6 +84,7 @@ function mathManager(operator) {
         currentProduct = operate(prevOperator, currentProduct, displayValue);
         if (currentProduct === 'ERROR') {
             display.textContent = currentProduct;
+            currentProduct = 0;
             return;
         }
 
@@ -106,15 +120,15 @@ function mathManager(operator) {
 }
 
 function add(x, y) {
-    return x + y;
+    return Number((x + y).toFixed(10));
 }
 
 function subtract(x, y) {
-    return x - y;
+    return Number((x - y).toFixed(10));
 }
 
 function multiply(x, y) {
-    return x * y;
+    return Number((x * y).toFixed(10));
 }
 
 function divide(x, y) {
@@ -123,7 +137,7 @@ function divide(x, y) {
         return 'ERROR';
     }
 
-    return x / y;
+    return Number((x / y).toFixed(10));
 }
 
 function operate(operator, x, y) {
