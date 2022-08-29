@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gainsboro;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    border: solid gray 4px;
+    padding: 5px;
+    /* font-family:'Times New Roman', Times, serif */
+}
+
+.display {
+    border: solid black 2px;
+    margin: 5px;
+    padding: 0 4px 0;
+    text-align: right;
+}
+
+.number {
+    background-color: lightblue;
+}

@@ -56,7 +56,11 @@ function undo() {
     }
 
     displayValue = String(displayValue).slice(0, -1);
-    display.textContent = displayValue;
+    if (displayValue === "") {
+        display.textContent = "0";
+    } else {
+        display.textContent = displayValue;
+    }
 }
 
 function changeSign() {
