@@ -64,11 +64,12 @@ function changeSign() {
         return;
     }
 
-    if (displayValue.startsWith('-')) {
-        displayValue = displayValue.substring(1);
+    if (String(displayValue).startsWith('-')) {
+        displayValue = String(displayValue).substring(1);
     } else {
         displayValue = '-' + displayValue;
     }
+    
     display.textContent = displayValue;
 }
 
