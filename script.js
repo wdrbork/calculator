@@ -1,10 +1,11 @@
-let displayValue = "";
+let displayValue = "0";
 let currentSum = 0;
 let currentProduct = 0;
 let prevOperator = undefined;
 let savedOperator = '+';
 
 const display = document.querySelector('.display');
+display.textContent = displayValue;
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
     number.addEventListener('click', () => updateDisplay(number));
@@ -32,33 +33,36 @@ function updateDisplay(number) {
         clear();
     }
 
-    // displayValue = displayValue * 10;
-    // if (displayValue < 0) {
-    //     displayValue -= parseInt(number.textContent);
-    // } else {
-    //     displayValue += parseInt(number.textContent);
-    // }
+    if (displayValue === "0") {
+        displayValue = "";
+    }
 
     displayValue += number.textContent;
     display.textContent = displayValue;
 }
 
 function clear() {
-    displayValue = "";
+    displayValue = "0";
     currentSum = 0;
     currentProduct = 0;
     prevOperator = undefined;
     savedOperator = '+';
-    display.textContent = "";
+    display.textContent = displayValue;
 }
 
 function undo() {
+    if (displayValue === "0") {
+        return;
+    }
+
     displayValue = String(displayValue).slice(0, -1);
     display.textContent = displayValue;
 }
 
 function changeSign() {
-    // displayValue *= -1;
+    if (displayValue === "0") {
+        return;
+    }
 
     if (displayValue.startsWith('-')) {
         displayValue = displayValue.substring(1);
@@ -79,7 +83,7 @@ function addDecimal() {
 
 function mathManager(operator) {
     debug();
-    if (displayValue === "") {
+    if (displayValue === "0") {
         return;
     }
 
@@ -134,7 +138,7 @@ function mathManager(operator) {
     }
 
     if (operator.textContent !== '=') {
-        displayValue = "";
+        displayValue = "0";
     }
     prevOperator = operator.textContent;
 }
