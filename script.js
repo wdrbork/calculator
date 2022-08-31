@@ -33,7 +33,7 @@ function updateDisplay(number) {
         clear();
     }
 
-    if (displayValue === "" && number.textContent === "0") {
+    if (displayValue === "0" && number.textContent === "0") {
         return;
     }
 
