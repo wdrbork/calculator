@@ -2,24 +2,75 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: gainsboro;
+}
+
+button {
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    font-weight: bold;
+    width: 60px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 16px;
+    margin: 0;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    border: solid gray 4px;
+    background-color: gray;
+    border: solid lightgray 4px;
     padding: 5px;
-    /* font-family:'Times New Roman', Times, serif */
+    
 }
 
 .display {
-    border: solid black 2px;
+    background-color:cadetblue;
+    border: solid darkgray 2px;
     margin: 5px;
     padding: 0 4px 0;
     text-align: right;
+    font-size: 30px;
+}
+
+.keypad {
+    display: flex;
+    width: 260px;
+    margin: 0;
+}
+
+.number-controls {
+    width: 190px;
+    margin-right: 2px;
+}
+
+.top {
+    display: flex;
+    gap: 6px;
+    font-size: 12px;
+    width: 200px;
+}
+
+.clear, .undo {
+    width: 90px;
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
+
+.all-numbers {
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .number {
-    background-color: lightblue;
+    background-color: white;
+}
+
+.all-operators {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+}
+
+.operator {
+    background-color: lightgray;
 }

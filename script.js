@@ -19,8 +19,8 @@ operators.forEach((operator) => {
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear);
 
-const backspace = document.querySelector('.backspace');
-backspace.addEventListener('click', undo);
+const undo = document.querySelector('.undo');
+undo.addEventListener('click', undoLast);
 
 const switchSign = document.querySelector('.change-sign');
 switchSign.addEventListener('click', changeSign);
@@ -50,7 +50,7 @@ function clear() {
     display.textContent = "0";
 }
 
-function undo() {
+function undoLast() {
     if (displayValue === "") {
         return;
     }
