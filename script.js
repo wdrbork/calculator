@@ -1,3 +1,4 @@
+const MAX_LENGTH = 16;
 let displayValue = "";
 let currentSum = 0;
 let currentProduct = 0;
@@ -33,7 +34,8 @@ function updateDisplay(number) {
         clear();
     }
 
-    if (displayValue === "0" && number.textContent === "0") {
+    if ((displayValue === "0" && number.textContent === "0") || 
+        displayValue.length === MAX_LENGTH) {
         return;
     }
 
@@ -82,8 +84,13 @@ function addDecimal() {
         return;
     }
 
+    if (displayValue === "") {
+        displayValue = "0";
+    }
+
     displayValue += '.';
     display.textContent = displayValue;
+    console.log(displayValue);
 }
 
 function mathManager(operator) {
