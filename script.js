@@ -1,4 +1,6 @@
 const MAX_LENGTH = 16;
+const DEBUG = false;
+
 let displayValue = "";
 let currentSum = 0;
 let currentProduct = 0;
@@ -50,6 +52,7 @@ function clear() {
     prevOperator = undefined;
     savedOperator = '+';
     display.textContent = "0";
+    display.setAttribute('style', 'font-size: 60px;');
 }
 
 function undoLast() {
@@ -94,7 +97,10 @@ function addDecimal() {
 }
 
 function mathManager(operator) {
-    debug();
+    if (DEBUG) {
+        debug();
+    }
+
     if (displayValue === "") {
         return;
     }
@@ -149,6 +155,12 @@ function mathManager(operator) {
         }
     }
 
+    if (display.textContent.length > MAX_LENGTH) {
+        display.setAttribute('style', 'font-size: 40px;');
+    } else {
+        display.setAttribute('style', 'font-size: 60px;');
+    }
+
     if (operator.textContent !== '=') {
         displayValue = "";
     }
@@ -156,15 +168,18 @@ function mathManager(operator) {
 }
 
 function add(x, y) {
-    return Number((x + y).toFixed(10));
+    let answer = Number((x + y).toFixed(MAX_LENGTH));
+    return answer;
 }
 
 function subtract(x, y) {
-    return Number((x - y).toFixed(10));
+    let answer = Number((x - y).toFixed(MAX_LENGTH));
+    return answer;
 }
 
 function multiply(x, y) {
-    return Number((x * y).toFixed(10));
+    let answer = Number((x * y).toFixed(MAX_LENGTH));
+    return answer;
 }
 
 function divide(x, y) {
@@ -173,7 +188,8 @@ function divide(x, y) {
         return 'ERROR';
     }
 
-    return Number((x / y).toFixed(10));
+    let answer = Number((x / y).toFixed(MAX_LENGTH));
+    return answer;
 }
 
 function operate(operator, x, y) {
