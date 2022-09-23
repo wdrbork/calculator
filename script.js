@@ -1,12 +1,31 @@
+// Sets the maximum number of digits in display
 const MAX_LENGTH = 16;
+
+// If true, the variables initialized immedietly afterwards are printed to 
+// the console
 const DEBUG = false;
 
+// The value to be shown on the display
 let displayValue = "";
+
+// The current sum of the calculation string. Due to order of operations, this 
+// acts the most general value and has the lowest priority
 let currentSum = 0;
+
+// The current product of the calculation string. Only comes into play when  
+// prevOperator is "*" or "÷"
 let currentProduct = 0;
+
+// The last operator chosen
 let prevOperator = undefined;
+
+// Saves the most recently used +/- operator (can only be '+' or '-'). When the 
+// user switches from +/- to */÷, we want to remember the last used +/- operator 
+// so that we can correctly merge the currentSum and the currentProduct
 let savedOperator = '+';
 
+// Manages the calculator display. When a number is chosen, it is output to the 
+// display
 const display = document.querySelector('.display');
 display.textContent = "0";
 const numbers = document.querySelectorAll('.number');
@@ -14,20 +33,26 @@ numbers.forEach((number) => {
     number.addEventListener('click', () => updateDisplay(number));
 });
 
+// Uses the chosen operator to conduct certain operations. See the mathManager 
+// function for specific functionality
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', () => mathManager(operator));
 });
 
+// Resets all global variables in the program to their default state (see above)
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clear);
 
+// Removes most recent numerical input from display
 const undo = document.querySelector('.undo');
 undo.addEventListener('click', undoLast);
 
+// Changes the number on display from positive to negative or vice versa
 const switchSign = document.querySelector('.change-sign');
 switchSign.addEventListener('click', changeSign);
 
+// Adds decimal to number in display
 const decimal = document.querySelector('.decimal');
 decimal.addEventListener('click', addDecimal);
 
@@ -101,6 +126,8 @@ function mathManager(operator) {
         debug();
     }
 
+    // If an operator is the first thing pressed after the calculator is cleared 
+    // or first loaded, we do not want to do anything
     if (displayValue === "") {
         return;
     }
@@ -155,6 +182,8 @@ function mathManager(operator) {
         }
     }
 
+    // Adjusts the font size of the display depending on the length of the display 
+    // value
     if (display.textContent.length > MAX_LENGTH) {
         display.setAttribute('style', 'font-size: 40px;');
     } else {
