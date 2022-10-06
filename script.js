@@ -30,14 +30,14 @@ const display = document.querySelector('.display');
 display.textContent = "0";
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
-    number.addEventListener('click', () => updateDisplay(number));
+    number.addEventListener('click', () => updateDisplay(number.textContent));
 });
 
 // Uses the chosen operator to conduct certain operations. See the mathManager 
 // function for specific functionality
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
-    operator.addEventListener('click', () => mathManager(operator));
+    operator.addEventListener('click', () => mathManager(operator.textContent));
 });
 
 // Resets all global variables in the program to their default state (see above)
@@ -56,17 +56,38 @@ switchSign.addEventListener('click', changeSign);
 const decimal = document.querySelector('.decimal');
 decimal.addEventListener('click', addDecimal);
 
+window.addEventListener('keydown', function(e) {
+    if (!isNaN(parseInt(e.key))) {
+        updateDisplay(e.key);
+    } else if (e.key === '*' || e.key === '+' || e.key === '-' || 
+               e.key === '=') {
+        mathManager(e.key);
+    }  else if (e.key === 'Enter') {
+        mathManager('=');
+    } else if (e.key === '/') {
+        mathManager('÷');
+    }else if (e.key === 'Backspace') {
+        undoLast();
+    } else if (e.key === 'c') {
+        clear();
+    } else if (e.key === '.') {
+        addDecimal();
+    }
+});
+
 function updateDisplay(number) {
     if (prevOperator === '=') {
         clear();
     }
 
-    if ((displayValue === "0" && number.textContent === "0") || 
+    // Prevents the user from having inputs with more than one zero and no 
+    // other number. Also limits the display to the MAX_LENGTH set above
+    if ((displayValue === "0" && number === "0") || 
         displayValue.length === MAX_LENGTH) {
         return;
     }
 
-    displayValue += number.textContent;
+    displayValue += number;
     display.textContent = displayValue;
 }
 
@@ -135,9 +156,9 @@ function mathManager(operator) {
     if (prevOperator === '+' || 
         prevOperator === '-') 
     {
-        if (operator.textContent === '+' || 
-            operator.textContent === '-' || 
-            operator.textContent === '=')  // ex: 2 + 3 -
+        if (operator === '+' || 
+            operator === '-' || 
+            operator === '=')  // ex: 2 + 3 -
         {
             currentSum = operate(prevOperator, currentSum, displayValue);
             displayValue = currentSum;
@@ -157,9 +178,9 @@ function mathManager(operator) {
             return;
         }
 
-        if (operator.textContent === '+' || 
-            operator.textContent === '-' || 
-            operator.textContent === '=')  // ex: 2 * 3 +
+        if (operator === '+' || 
+            operator === '-' || 
+            operator === '=')  // ex: 2 * 3 +
         {
             currentSum = operate(savedOperator, currentSum, currentProduct);
             currentProduct = 0;
@@ -170,9 +191,9 @@ function mathManager(operator) {
             display.textContent = currentProduct;
         }
     } else {
-        if (operator.textContent === '+' || 
-            operator.textContent === '-' || 
-            operator.textContent === '=')
+        if (operator === '+' || 
+            operator === '-' || 
+            operator === '=')
         { 
             currentSum = displayValue;
             currentProduct = 0;
@@ -190,10 +211,10 @@ function mathManager(operator) {
         display.setAttribute('style', 'font-size: 60px;');
     }
 
-    if (operator.textContent !== '=') {
+    if (operator !== '=') {
         displayValue = "";
     }
-    prevOperator = operator.textContent;
+    prevOperator = operator;
 }
 
 function add(x, y) {
