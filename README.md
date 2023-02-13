@@ -1,4 +1,4 @@
-# calculator
+# Calculator
 This website contains most of the basic functions present in a 
-calculator. More functions, including the ability to use floating 
-point values and keyboard inputs, will be added down the line.
+calculator. It can do basic operations (addition, subtraction, 
+multiplication, and division) and take in keyboard inputs.
