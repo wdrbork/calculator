@@ -8,8 +8,7 @@ const DEBUG = false;
 // The value to be shown on the display
 let displayValue = "";
 
-// The current sum of the calculation string. Due to order of operations, this 
-// acts the most general value and has the lowest priority
+// The current sum of the calculation string
 let currentSum = 0;
 
 // The current product of the calculation string. Only comes into play when  
@@ -19,9 +18,9 @@ let currentProduct = 0;
 // The last operator chosen
 let prevOperator = undefined;
 
-// Saves the most recently used +/- operator (can only be '+' or '-'). When the 
-// user switches from +/- to */÷, we want to remember the last used +/- operator 
-// so that we can correctly merge the currentSum and the currentProduct
+// Saves the most recently used +/- operator. When the user switches from
+// +/- to */÷, we want to remember the last used +/- operator so that we 
+// can correctly merge the currentSum and the currentProduct
 let savedOperator = '+';
 
 // Manages the calculator display. When a number is chosen, it is output to the 
